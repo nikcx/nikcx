@@ -1,0 +1,36 @@
+name: Update readme
+
+on:
+  workflow_dispatch:
+  push:
+  schedule:
+    - cron: '0 0 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Install dependencies
+        run: |
+          sudo apt update && sudo apt install -y ffmpeg
+          python -m pip install --upgrade pip
+          pip install github-readme-terminal
+
+      - name: Run script
+        run: python gen.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIFOS_GENERAL_COLOR_SCHEME: "rose-pine"
+
+      - name: Update gif
+        run: |
+          git add output.gif
+          git -c "user.name='time update'" -c "user.email='nikcx00@gmail.com'" commit -m "Refreshed to $(TZ='Europe/Warsaw' date)"
+          git push
