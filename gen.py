@@ -174,6 +174,4 @@ t.gen_prompt(t.num_rows, count=24)
 t.gen_typing_text("hi :3", t.num_rows, contin=True, speed=3)
 t.gen_text("", t.num_rows, contin=True, count=512)
 
-# Execute terminal command
-# ffmpeg -hide_banner -loglevel error -r 15 -i 'frames/frame_%d.png' -filter_complex '[0:v] split [a][b];[a] palettegen [p];[b][p] paletteuse' output.gif
-# t.gen_gif()
+t.gen_gif()
